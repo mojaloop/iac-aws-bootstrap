@@ -1,0 +1,5 @@
+#!/bin/bash
+
+mkfs.ext4 /dev/xvdb
+mount /dev/xvdb /var/opt/gitlab/backups
+echo /dev/xvdb    /var/opt/gitlab/backups    ext4    defaults    0    1 >> /etc/fstab
