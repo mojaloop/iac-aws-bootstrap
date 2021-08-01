@@ -55,7 +55,7 @@ variable "vpn_instance_type" {
 
 variable "use_latest_ami" {
   description = "Set this to true to pick the latest version available of Ubuntu Focal, otherwise a predefined image (from vpn_ami_list and gitlab_ami_list variable) will be used."
-  default     = false
+  default     = true
 }
 
 variable "cidr_block" {
