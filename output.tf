@@ -26,6 +26,7 @@ output "gitlab_ssh_private_key" {
 output "gitlab_root_pw" {
   description = "root pw for gitlab"
   value       = module.gitlab.gitlab_root_pw
+  sensitive   = true
 }
 
 output "gitlab_ssh_public_key" {
