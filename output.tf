@@ -23,6 +23,11 @@ output "gitlab_ssh_private_key" {
   value       = module.gitlab.gitlab_ssh_private_key
 }
 
+output "gitlab_root_pw" {
+  description = "root pw for gitlab"
+  value       = module.gitlab.gitlab_root_pw
+}
+
 output "gitlab_ssh_public_key" {
   description = "Public SSH key for GitLab Server and CI runner"
   value       = module.gitlab.gitlab_ssh_public_key
