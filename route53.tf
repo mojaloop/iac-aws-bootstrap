@@ -18,7 +18,7 @@ data "aws_route53_zone" "selected" {
 
 resource "aws_route53_record" "subdomain-ns" {
    zone_id = data.aws_route53_zone.selected.zone_id
-   name    = data.aws_route53_zone.selected.name
+   name    = aws_route53_zone.tenant_public.name
    type    = "NS"
    ttl     = "30"
 
