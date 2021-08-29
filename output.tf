@@ -149,7 +149,7 @@ output "wireguard_vpn_hostname" {
 }
 
 output "wireguard_ssh_private_key" {
-  description = "Private SSH key for Nexus Server"
+  description = "Private SSH key for Wireguard Server"
   value       = tls_private_key.wireguard_provisioner_key.private_key_pem
   sensitive   = true
 }
