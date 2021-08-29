@@ -153,3 +153,9 @@ output "wireguard_ssh_private_key" {
   value       = tls_private_key.wireguard_provisioner_key.private_key_pem
   sensitive   = true
 }
+
+output "wireguard_ssh_private_key" {
+  description = "admin pw for Wireguard UI"
+  value       = random_password.wireguard_password.result
+  sensitive   = true
+}
