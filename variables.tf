@@ -129,5 +129,5 @@ variable "nexus_ami_list" {
 variable "gitlab_use_staging_letsencrypt" {
   description = "use staging instead of prod letsencrypt"
   default     = false
-  type        = boolean
+  type        = bool
 }
