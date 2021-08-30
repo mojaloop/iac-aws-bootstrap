@@ -54,19 +54,20 @@ module "private_subnets" {
 }
 
 module "gitlab" {
-  source             = "git::https://github.com/mojaloop/iac-shared-modules.git//aws/gitlab?ref=v1.0.13"
-  ami                = var.use_latest_ami ? module.ubuntu-focal-ami.id : var.gitlab_ami_list[var.region]
-  instance_type      = "t2.large"
-  gitlab_runner_size = "c5.2xlarge"
-  domain             = var.domain
-  namespace          = var.tenant
-  fqdn               = "gitlab.${var.tenant}.${var.domain}"
-  vpc_id             = module.vpc.vpc_id
-  zone_id            = aws_route53_zone.tenant_public.zone_id
-  security_groups    = []
-  subnets            = [module.public_subnets.named_subnet_ids["management"]["id"]]
-  tags               = merge({}, var.tags)
-  user_data          = file("${path.module}/templates/userdata")
+  source                  = "git::https://github.com/mojaloop/iac-shared-modules.git//aws/gitlab?ref=v1.0.13"
+  ami                     = var.use_latest_ami ? module.ubuntu-focal-ami.id : var.gitlab_ami_list[var.region]
+  instance_type           = "t2.large"
+  gitlab_runner_size      = "c5.2xlarge"
+  domain                  = var.domain
+  namespace               = var.tenant
+  fqdn                    = "gitlab.${var.tenant}.${var.domain}"
+  vpc_id                  = module.vpc.vpc_id
+  zone_id                 = aws_route53_zone.tenant_public.zone_id
+  security_groups         = []
+  subnets                 = [module.public_subnets.named_subnet_ids["management"]["id"]]
+  tags                    = merge({}, var.tags)
+  user_data               = file("${path.module}/templates/userdata")
+  use_letsencrypt_staging = var.gitlab_use_staging_letsencrypt
 }
 
 module "nexus" {

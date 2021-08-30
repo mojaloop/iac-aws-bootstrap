@@ -70,7 +70,6 @@ module "wireguard" {
   tags                    = merge({ Tenant = var.tenant }, var.tags)
   ssh_key                 = tls_private_key.wireguard_provisioner_key.private_key_pem
   ui_admin_pw             = random_password.wireguard_password.result
-  use_letsencrypt_staging = var.gitlab_use_staging_letsencrypt
 }
 
 /* module "wireguard_users" {
