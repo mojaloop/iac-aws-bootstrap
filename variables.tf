@@ -125,3 +125,9 @@ variable "nexus_ami_list" {
     ap-southeast-1 = "ami-0f7719e8b7ba25c61"
   }
 }
+
+variable "gitlab_use_staging_letsencrypt" {
+  description = "use staging instead of prod letsencrypt"
+  default     = false
+  type        = boolean
+}

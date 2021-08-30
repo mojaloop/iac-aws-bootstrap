@@ -60,20 +60,21 @@ resource "random_password" "wireguard_password" {
 }
 
 module "wireguard" {
-  source = "git::https://github.com/mojaloop/iac-shared-modules.git//aws/wg?ref=v1.0.11"
+  source = "git::https://github.com/mojaloop/iac-shared-modules.git//aws/wg?ref=v1.0.12"
 
-  ami_id          = var.use_latest_ami ? module.ubuntu-focal-ami.id : var.vpn_ami_list[var.region]
-  instance_type   = var.vpn_instance_type
-  ssh_key_name    = aws_key_pair.wireguard_provisioner_key.key_name
-  security_groups = [aws_security_group.vpn_sg.id]
-  subnet_id       = module.public_subnets.named_subnet_ids["management"]["id"]
-  tags            = merge({ Tenant = var.tenant }, var.tags)
-  ssh_key         = tls_private_key.wireguard_provisioner_key.private_key_pem
-  ui_admin_pw     = random_password.wireguard_password.result
+  ami_id                  = var.use_latest_ami ? module.ubuntu-focal-ami.id : var.vpn_ami_list[var.region]
+  instance_type           = var.vpn_instance_type
+  ssh_key_name            = aws_key_pair.wireguard_provisioner_key.key_name
+  security_groups         = [aws_security_group.vpn_sg.id]
+  subnet_id               = module.public_subnets.named_subnet_ids["management"]["id"]
+  tags                    = merge({ Tenant = var.tenant }, var.tags)
+  ssh_key                 = tls_private_key.wireguard_provisioner_key.private_key_pem
+  ui_admin_pw             = random_password.wireguard_password.result
+  use_letsencrypt_staging = var.gitlab_use_staging_letsencrypt
 }
 
 /* module "wireguard_users" {
-  source = "git::https://github.com/mojaloop/iac-shared-modules.git//aws/wg_user?ref=v1.0.11"
+  source = "git::https://github.com/mojaloop/iac-shared-modules.git//aws/wg_user?ref=v1.0.12"
 
   dns_server        = "10.25.0.2"
   wireguard_address = module.wireguard.public_ip
