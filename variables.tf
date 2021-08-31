@@ -131,3 +131,9 @@ variable "gitlab_use_staging_letsencrypt" {
   default     = false
   type        = bool
 }
+
+variable "iac_group_name" {
+  type        = string
+  description = "iac group name"
+  default     = "admin"
+}

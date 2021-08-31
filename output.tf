@@ -159,3 +159,15 @@ output "wireguard_ui_admin_pw" {
   value       = random_password.wireguard_password.result
   sensitive   = true
 }
+
+output "iac_user_key_id" {
+  description = "key id for iac user"
+  value       = aws_iam_access_key.gitlab_ci_iam_user_key.id
+  sensitive   = false
+}
+
+output "iac_user_key_secret" {
+  description = "key secret for iac user"
+  value       = aws_iam_access_key.gitlab_ci_iam_user_key.secret
+  sensitive   = true
+}
