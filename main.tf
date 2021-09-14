@@ -66,7 +66,7 @@ module "gitlab" {
   security_groups         = []
   subnets                 = [module.public_subnets.named_subnet_ids["management"]["id"]]
   tags                    = merge({}, var.tags)
-  user_data               = file("${path.module}/templates/userdata")
+  user_data               = chomp(file("${path.module}/templates/userdata"))
   use_letsencrypt_staging = var.gitlab_use_staging_letsencrypt
 }
 

@@ -137,3 +137,9 @@ variable "iac_group_name" {
   description = "iac group name"
   default     = "admin"
 }
+
+variable "days_retain_gitlab_snapshot" {
+  type        = number
+  description = "number of days to retain gitlab snapshots"
+  default     = 7
+}

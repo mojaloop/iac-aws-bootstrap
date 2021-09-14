@@ -57,7 +57,7 @@ resource "aws_dlm_lifecycle_policy" "backup-gitlab" {
     resource_types = ["VOLUME"]
 
     schedule {
-      name = "2 weeks of daily snapshots"
+      name = "${var.days_retain_gitlab_snapshot} days of daily snapshots"
 
       create_rule {
         interval      = 24
@@ -66,7 +66,7 @@ resource "aws_dlm_lifecycle_policy" "backup-gitlab" {
       }
 
       retain_rule {
-        count = 14
+        count = var.days_retain_gitlab_snapshot
       }
 
       tags_to_add = {
