@@ -60,7 +60,7 @@ resource "random_password" "wireguard_password" {
 }
 
 module "wireguard" {
-  source = "git::https://github.com/mojaloop/iac-shared-modules.git//aws/wg?ref=v1.0.26"
+  source = "git::https://github.com/mojaloop/iac-shared-modules.git//aws/wg?ref=v1.0.27"
 
   ami_id                  = var.use_latest_ami ? module.ubuntu-focal-ami.id : var.vpn_ami_list[var.region]
   instance_type           = var.vpn_instance_type
@@ -75,7 +75,7 @@ module "wireguard" {
 }
 
 /* module "wireguard_users" {
-  source = "git::https://github.com/mojaloop/iac-shared-modules.git//aws/wg_user?ref=v1.0.26"
+  source = "git::https://github.com/mojaloop/iac-shared-modules.git//aws/wg_user?ref=v1.0.27"
 
   dns_server        = "10.25.0.2"
   wireguard_address = module.wireguard.public_ip

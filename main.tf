@@ -4,12 +4,12 @@ locals {
 }
 
 module "ubuntu-bionic-ami" {
-  source  = "git::https://github.com/mojaloop/iac-shared-modules.git//aws/ami-ubuntu?ref=v1.0.26"
+  source  = "git::https://github.com/mojaloop/iac-shared-modules.git//aws/ami-ubuntu?ref=v1.0.27"
   release = "18.04"
 }
 
 module "ubuntu-focal-ami" {
-  source  = "git::https://github.com/mojaloop/iac-shared-modules.git//aws/ami-ubuntu?ref=v1.0.26"
+  source  = "git::https://github.com/mojaloop/iac-shared-modules.git//aws/ami-ubuntu?ref=v1.0.27"
   release = "20.04"
 }
 
@@ -26,7 +26,7 @@ data "aws_availability_zones" "available" {
 }
 
 module "public_subnets" {
-  source            = "git::https://github.com/mojaloop/iac-shared-modules.git//aws/named-subnets?ref=v1.0.26"
+  source            = "git::https://github.com/mojaloop/iac-shared-modules.git//aws/named-subnets?ref=v1.0.27"
   namespace         = var.tenant
   name              = var.tenant
   subnet_names      = local.all_pub_subnets
@@ -40,7 +40,7 @@ module "public_subnets" {
 }
 
 module "private_subnets" {
-  source            = "git::https://github.com/mojaloop/iac-shared-modules.git//aws/named-subnets?ref=v1.0.26"
+  source            = "git::https://github.com/mojaloop/iac-shared-modules.git//aws/named-subnets?ref=v1.0.27"
   namespace         = var.tenant
   name              = var.tenant
   subnet_names      = local.all_priv_subnets
@@ -54,7 +54,7 @@ module "private_subnets" {
 }
 
 module "gitlab" {
-  source                  = "git::https://github.com/mojaloop/iac-shared-modules.git//aws/gitlab?ref=v1.0.26"
+  source                  = "git::https://github.com/mojaloop/iac-shared-modules.git//aws/gitlab?ref=v1.0.27"
   ami                     = var.use_latest_ami ? module.ubuntu-focal-ami.id : var.gitlab_ami_list[var.region]
   instance_type           = "t2.large"
   gitlab_runner_size      = "c5.2xlarge"
@@ -68,10 +68,11 @@ module "gitlab" {
   tags                    = merge({}, var.tags)
   user_data               = chomp(file("${path.module}/templates/userdata"))
   use_letsencrypt_staging = var.gitlab_use_staging_letsencrypt
+  tenant                  = var.tenant
 }
 
 module "nexus" {
-  source                     = "git::https://github.com/mojaloop/iac-shared-modules.git//aws/nexus?ref=v1.0.26"
+  source                     = "git::https://github.com/mojaloop/iac-shared-modules.git//aws/nexus?ref=v1.0.27"
   ami                        = var.use_latest_ami ? module.ubuntu-focal-ami.id : var.nexus_ami_list[var.region]
   instance_type              = var.nexus_instance_type
   domain                     = var.domain
@@ -83,4 +84,5 @@ module "nexus" {
   tags                       = merge({}, var.tags)
   nexus_admin_password       = var.nexus_admin_password
   docker_repo_listening_port = var.nexus_docker_repo_listening_port
+  tenant                     = var.tenant
 }
