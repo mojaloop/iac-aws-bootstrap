@@ -63,7 +63,7 @@ module "wireguard" {
   ui_admin_pw             = random_password.wireguard_password.result
   vpc_id                  = module.vpc.vpc_id
   cert_domain             = aws_route53_zone.tenant_public.name
-  zome_id                = aws_route53_zone.tenant_public.zone_id
+  zone_id                = aws_route53_zone.tenant_public.zone_id
 }
 
 /* module "wireguard_users" {
