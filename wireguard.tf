@@ -71,7 +71,7 @@ module "wireguard" {
   ssh_key                 = tls_private_key.wireguard_provisioner_key.private_key_pem
   ui_admin_pw             = random_password.wireguard_password.result
   vpc_id                  = module.vpc.vpc_id
-  cert_domain             = module.dns_wireguard.hostname
+  cert_domain             = aws_route53_zone.tenant_public.name
 }
 
 /* module "wireguard_users" {
