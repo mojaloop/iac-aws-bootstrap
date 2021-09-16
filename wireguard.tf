@@ -1,12 +1,3 @@
-module "dns_wireguard" {
-  source  = "git::https://github.com/cloudposse/terraform-aws-route53-cluster-hostname.git?ref=tags/0.10.0"
-  name    = "wireguard"
-  zone_id = aws_route53_zone.tenant_public.zone_id
-  ttl     = 300
-  type    = "A"
-  records = [module.wireguard.public_ip]
-}
-
 resource "aws_key_pair" "wireguard_provisioner_key" {
   key_name   = "wireguard-${var.tenant}-${var.domain}-deployer-key"
   public_key = tls_private_key.wireguard_provisioner_key.public_key_openssh
@@ -60,7 +51,7 @@ resource "random_password" "wireguard_password" {
 }
 
 module "wireguard" {
-  source = "git::https://github.com/mojaloop/iac-shared-modules.git//aws/wg?ref=v1.0.27"
+  source = "git::https://github.com/mojaloop/iac-shared-modules.git//aws/wg?ref=v1.0.28"
 
   ami_id                  = var.use_latest_ami ? module.ubuntu-focal-ami.id : var.vpn_ami_list[var.region]
   instance_type           = var.vpn_instance_type
@@ -72,10 +63,11 @@ module "wireguard" {
   ui_admin_pw             = random_password.wireguard_password.result
   vpc_id                  = module.vpc.vpc_id
   cert_domain             = aws_route53_zone.tenant_public.name
+  route_id                = aws_route53_zone.tenant_public.zone_id
 }
 
 /* module "wireguard_users" {
-  source = "git::https://github.com/mojaloop/iac-shared-modules.git//aws/wg_user?ref=v1.0.27"
+  source = "git::https://github.com/mojaloop/iac-shared-modules.git//aws/wg_user?ref=v1.0.28"
 
   dns_server        = "10.25.0.2"
   wireguard_address = module.wireguard.public_ip

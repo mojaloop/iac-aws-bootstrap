@@ -144,7 +144,7 @@ output "wireguard_private_ip" {
 }
 
 output "wireguard_vpn_hostname" {
-  value       = module.dns_wireguard.hostname
+  value       = module.wireguard.hostname
   description = "Public Wireguard hostname"
 }
 
