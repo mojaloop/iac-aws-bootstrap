@@ -16,34 +16,6 @@ resource "local_file" "wireguard_provisioner_key" {
   file_permission = "0600"
 }
 
-resource "aws_security_group" "vpn_sg" {
-  vpc_id      = module.vpc.vpc_id
-  name        = "${var.tenant}-vpn-host"
-  description = "Allow all to vpn host"
-
-  ingress {
-    from_port   = 0
-    to_port     = 0
-    protocol    = "-1"
-    cidr_blocks = ["0.0.0.0/0"]
-  }
-
-  egress {
-    from_port   = 0
-    to_port     = 0
-    protocol    = "-1"
-    cidr_blocks = ["0.0.0.0/0"]
-  }
-
-  ingress {
-    from_port   = "-1"
-    to_port     = "-1"
-    protocol    = "icmp"
-    cidr_blocks = ["0.0.0.0/0"]
-  }
-
-  tags = merge({}, var.tags)
-}
 
 resource "random_password" "wireguard_password" {
   length  = 16
@@ -51,23 +23,23 @@ resource "random_password" "wireguard_password" {
 }
 
 module "wireguard" {
-  source = "git::https://github.com/mojaloop/iac-shared-modules.git//aws/wg?ref=v1.0.30"
+  source = "git::https://github.com/mojaloop/iac-shared-modules.git//aws/wg?ref=v1.0.31"
 
   ami_id                  = var.use_latest_ami ? module.ubuntu-focal-ami.id : var.vpn_ami_list[var.region]
   instance_type           = var.vpn_instance_type
   ssh_key_name            = aws_key_pair.wireguard_provisioner_key.key_name
-  security_groups         = [aws_security_group.vpn_sg.id]
   subnet_id               = module.public_subnets.named_subnet_ids["management"]["id"]
   tags                    = merge({ Tenant = var.tenant }, var.tags)
   ssh_key                 = tls_private_key.wireguard_provisioner_key.private_key_pem
   ui_admin_pw             = random_password.wireguard_password.result
   vpc_id                  = module.vpc.vpc_id
   cert_domain             = aws_route53_zone.tenant_public.name
-  zone_id                = aws_route53_zone.tenant_public.zone_id
+  zone_id                 = aws_route53_zone.tenant_public.zone_id
+  wireguard_tenancy_name  = var.tenant
 }
 
 /* module "wireguard_users" {
-  source = "git::https://github.com/mojaloop/iac-shared-modules.git//aws/wg_user?ref=v1.0.30"
+  source = "git::https://github.com/mojaloop/iac-shared-modules.git//aws/wg_user?ref=v1.0.31"
 
   dns_server        = "10.25.0.2"
   wireguard_address = module.wireguard.public_ip
