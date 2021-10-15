@@ -20,6 +20,7 @@ resource "local_file" "wireguard_provisioner_key" {
 resource "random_password" "wireguard_password" {
   length  = 16
   special = true
+  override_special = "$!-%"
 }
 
 module "wireguard" {
