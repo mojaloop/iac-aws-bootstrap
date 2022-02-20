@@ -1,6 +1,6 @@
 locals {
-  all_pub_subnets  = concat(["management"], [for pair in setproduct(var.environments, var.public_subnets) : "${pair[0]}-${pair[1]}"])
-  all_priv_subnets = [for pair in setproduct(var.environments, var.private_subnets) : "${pair[0]}-${pair[1]}"]
+  all_pub_subnets  = concat(["management"], [for pair in setproduct(var.environments, data.aws_availability_zones.available.names) : "${pair[0]}-${pair[1]}"])
+  all_priv_subnets = [for pair in setproduct(var.environments, data.aws_availability_zones.available.names) : "${pair[0]}-${pair[1]}"]
 }
 
 module "ubuntu-bionic-ami" {
