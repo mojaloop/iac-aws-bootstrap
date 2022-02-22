@@ -100,7 +100,7 @@ resource "aws_eip" "default" {
 resource "aws_nat_gateway" "default" {
   count         = local.ngw_count
   allocation_id = join("", aws_eip.default.*.id)
-  subnet_id     = aws_subnet.public[local.public_subnets[0]].id
+  subnet_id     = aws_subnet.public[keys(local.public_subnet_az_map)[0]].id
   tags          = module.public_label.tags
 
   lifecycle {
