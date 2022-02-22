@@ -1,6 +1,6 @@
 locals {
-  all_pub_subnets  = concat(["management"], [for pair in setproduct(var.environments, data.aws_availability_zones.available.names) : "${pair[0]}-${pair[1]}"])
-  all_priv_subnets = [for pair in setproduct(var.environments, data.aws_availability_zones.available.names) : "${pair[0]}-${pair[1]}"]
+  all_pub_subnets  = merge({"management" = data.aws_availability_zones.available.names[0]}, {for pair in setproduct(var.environments, data.aws_availability_zones.available.names) : "${pair[0]}-${pair[1]}" => pair[1]})
+  all_priv_subnets = {for pair in setproduct(var.environments, data.aws_availability_zones.available.names) : "${pair[0]}-${pair[1]}" => pair[1]}
 }
 
 module "ubuntu-bionic-ami" {
@@ -26,29 +26,27 @@ data "aws_availability_zones" "available" {
 }
 
 module "public_subnets" {
-  source            = "git::https://github.com/mojaloop/iac-shared-modules.git//aws/named-subnets?ref=v1.0.44"
+  source            = "../modules/named-subnets"
   namespace         = var.tenant
   name              = var.tenant
-  subnet_names      = local.all_pub_subnets
+  subnet_az_map      = local.all_pub_subnets
   vpc_id            = module.vpc.vpc_id
   cidr_block        = cidrsubnet(var.cidr_block, 1, 0)
   max_subnets       = 128
   type              = "public"
   igw_id            = module.vpc.igw_id
-  availability_zone = data.aws_availability_zones.available.names[0]
   tags              = merge({}, var.tags)
 }
 
 module "private_subnets" {
-  source            = "git::https://github.com/mojaloop/iac-shared-modules.git//aws/named-subnets?ref=v1.0.44"
+  source            = "../modules/named-subnets"
   namespace         = var.tenant
   name              = var.tenant
-  subnet_names      = local.all_priv_subnets
+  subnet_az_map      = local.all_priv_subnets
   vpc_id            = module.vpc.vpc_id
   cidr_block        = cidrsubnet(var.cidr_block, 1, 1)
   max_subnets       = 128
   type              = "private"
-  availability_zone = data.aws_availability_zones.available.names[0]
   ngw_id            = module.public_subnets.ngw_id
   tags              = merge({}, var.tags)
 }
