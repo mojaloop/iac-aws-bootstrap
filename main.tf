@@ -26,7 +26,7 @@ data "aws_availability_zones" "available" {
 }
 
 module "public_subnets" {
-  source            = "modules/named-subnets"
+  source            = "./modules/named-subnets"
   namespace         = var.tenant
   name              = var.tenant
   subnet_az_map      = local.all_pub_subnets
@@ -39,7 +39,7 @@ module "public_subnets" {
 }
 
 module "private_subnets" {
-  source            = "modules/named-subnets"
+  source            = "./modules/named-subnets"
   namespace         = var.tenant
   name              = var.tenant
   subnet_az_map      = local.all_priv_subnets
