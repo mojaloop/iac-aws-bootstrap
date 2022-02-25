@@ -4,12 +4,12 @@ locals {
 }
 
 module "ubuntu-bionic-ami" {
-  source  = "git::https://github.com/mojaloop/iac-shared-modules.git//aws/ami-ubuntu?ref=v1.0.44"
+  source  = "git::https://github.com/mojaloop/iac-shared-modules.git//aws/ami-ubuntu?ref=v1.0.45"
   release = "18.04"
 }
 
 module "ubuntu-focal-ami" {
-  source  = "git::https://github.com/mojaloop/iac-shared-modules.git//aws/ami-ubuntu?ref=v1.0.44"
+  source  = "git::https://github.com/mojaloop/iac-shared-modules.git//aws/ami-ubuntu?ref=v1.0.45"
   release = "20.04"
 }
 
@@ -52,7 +52,7 @@ module "private_subnets" {
 }
 
 module "gitlab" {
-  source                  = "git::https://github.com/mojaloop/iac-shared-modules.git//aws/gitlab?ref=v1.0.44"
+  source                  = "git::https://github.com/mojaloop/iac-shared-modules.git//aws/gitlab?ref=v1.0.45"
   ami                     = var.use_latest_ami ? module.ubuntu-focal-ami.id : var.gitlab_ami_list[var.region]
   instance_type           = "t2.large"
   gitlab_runner_size      = "c5.2xlarge"
@@ -70,7 +70,7 @@ module "gitlab" {
 }
 
 module "nexus" {
-  source                     = "git::https://github.com/mojaloop/iac-shared-modules.git//aws/nexus?ref=v1.0.44"
+  source                     = "git::https://github.com/mojaloop/iac-shared-modules.git//aws/nexus?ref=v1.0.45"
   ami                        = var.use_latest_ami ? module.ubuntu-focal-ami.id : var.nexus_ami_list[var.region]
   instance_type              = var.nexus_instance_type
   domain                     = var.domain
