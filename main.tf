@@ -52,7 +52,7 @@ module "private_subnets" {
 }
 
 module "gitlab" {
-  source                  = "git::https://github.com/mojaloop/iac-shared-modules.git//aws/gitlab?ref=v1.0.45"
+  source                  = "git::https://github.com/mojaloop/iac-shared-modules.git//aws/gitlab?ref=feature-github-signin"
   ami                     = var.use_latest_ami ? module.ubuntu-focal-ami.id : var.gitlab_ami_list[var.region]
   instance_type           = "t2.large"
   gitlab_runner_size      = "c5.2xlarge"
@@ -67,6 +67,9 @@ module "gitlab" {
   user_data               = chomp(file("${path.module}/templates/userdata"))
   use_letsencrypt_staging = var.gitlab_use_staging_letsencrypt
   tenant                  = var.tenant
+  enable_github_oauth     = var.enable_github_oauth
+  github_oauth_id         = var.github_oauth_id
+  github_oauth_secret     = var.github_oauth_secret
 }
 
 module "nexus" {
