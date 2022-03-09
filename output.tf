@@ -29,6 +29,12 @@ output "gitlab_root_pw" {
   sensitive   = true
 }
 
+output "gitlab_root_token" {
+  description = "root token for gitlab"
+  value       = module.gitlab.gitlab_root_token
+  sensitive   = true
+}
+
 output "gitlab_ssh_public_key" {
   description = "Public SSH key for GitLab Server and CI runner"
   value       = module.gitlab.gitlab_ssh_public_key
