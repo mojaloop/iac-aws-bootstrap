@@ -52,7 +52,7 @@ module "private_subnets" {
 }
 
 module "gitlab" {
-  source                  = "git::https://github.com/mojaloop/iac-shared-modules.git//aws/gitlab?ref=feature-github-signin"
+  source                  = "git::https://github.com/mojaloop/iac-shared-modules.git//aws/gitlab?ref=v2.1.0"
   ami                     = var.use_latest_ami ? module.ubuntu-focal-ami.id : var.gitlab_ami_list[var.region]
   instance_type           = "t2.large"
   gitlab_runner_size      = "c5.2xlarge"
@@ -89,7 +89,7 @@ module "nexus" {
 }
 
 module "init-gitlab" {
-  source                     = "git::https://github.com/mojaloop/iac-shared-modules.git//gitlab/init-config?ref=feature-github-signin"
+  source                     = "git::https://github.com/mojaloop/iac-shared-modules.git//gitlab/init-config?ref=v2.1.0"
   iac_user_key_secret        = aws_iam_access_key.gitlab_ci_iam_user_key.secret
   iac_user_key_id            = aws_iam_access_key.gitlab_ci_iam_user_key.id
   group_list                 = var.gitlab_rbac_groups
