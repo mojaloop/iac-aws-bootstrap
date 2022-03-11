@@ -52,7 +52,7 @@ module "private_subnets" {
 }
 
 module "gitlab" {
-  source                  = "git::https://github.com/mojaloop/iac-shared-modules.git//aws/gitlab?ref=v2.1.1"
+  source                  = "git::https://github.com/mojaloop/iac-shared-modules.git//aws/gitlab?ref=v2.1.2"
   ami                     = var.use_latest_ami ? module.ubuntu-focal-ami.id : var.gitlab_ami_list[var.region]
   instance_type           = "t2.large"
   gitlab_runner_size      = "c5.2xlarge"
@@ -70,6 +70,12 @@ module "gitlab" {
   enable_github_oauth     = var.enable_github_oauth
   github_oauth_id         = var.github_oauth_id
   github_oauth_secret     = var.github_oauth_secret
+  smtp_server_enable      = var.smtp_server_enable
+  smtp_server_address     = "email-smtp.${var.region}.amazonaws.com"
+  smtp_server_port        = 587
+  smtp_server_user        = var.smtp_server_enable ? module.ses[0].access_key_id : ""
+  smtp_server_pw          = var.smtp_server_enable ? module.ses[0].secret_access_key : ""
+  smtp_server_mail_domain = "${lower(var.tenant)}.${var.domain}"
 }
 
 module "nexus" {
@@ -89,11 +95,28 @@ module "nexus" {
 }
 
 module "init-gitlab" {
-  source                     = "git::https://github.com/mojaloop/iac-shared-modules.git//gitlab/init-config?ref=v2.1.1"
+  source                     = "git::https://github.com/mojaloop/iac-shared-modules.git//gitlab/init-config?ref=v2.1.2"
   iac_user_key_secret        = aws_iam_access_key.gitlab_ci_iam_user_key.secret
   iac_user_key_id            = aws_iam_access_key.gitlab_ci_iam_user_key.id
   group_list                 = var.gitlab_rbac_groups
   env_list                   = var.environments
   root_token                 = module.gitlab.gitlab_root_token
   gitlab_url                 = "https://${module.gitlab.server_hostname}"
+}
+
+module "ses" {
+  count = var.smtp_server_enable ? 1 : 0
+  source  = "cloudposse/ses/aws"
+  version = "~> 0.22.0"
+
+  domain                 = "${lower(var.tenant)}.${var.domain}"
+  iam_access_key_max_age = 0
+  name                   = "tenant-${var.tenant}-ses"
+  ses_group_enabled      = false
+  ses_user_enabled       = true
+  verify_dkim            = true
+  verify_domain          = true
+  zone_id                = aws_route53_zone.tenant_public.id
+
+  tags              = merge({}, var.tags)
 }

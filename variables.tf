@@ -167,3 +167,9 @@ variable "gitlab_rbac_groups" {
   description = "groups to seed in gitlab for rbac"
   default = ["tenant-admins", "tenant-viewers"]
 }
+
+variable "smtp_server_enable" {
+  type = bool
+  description = "enable smtp server (ses)"
+  default = false
+}
