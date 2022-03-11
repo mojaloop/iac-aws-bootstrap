@@ -95,5 +95,5 @@ module "init-gitlab" {
   group_list                 = var.gitlab_rbac_groups
   env_list                   = var.environments
   root_token                 = module.gitlab.gitlab_root_token
-  gitlab_url                 = module.gitlab.server_hostname
+  gitlab_url                 = "https://${module.gitlab.server_hostname}"
 }
