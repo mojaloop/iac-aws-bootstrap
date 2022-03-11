@@ -161,3 +161,9 @@ variable "github_oauth_secret" {
   default = ""
   sensitive = true
 }
+
+variable "gitlab_rbac_groups" {
+  type        = list(string)
+  description = "groups to seed in gitlab for rbac"
+  default = ["tenant-admins", "tenant-viewers"]
+}
