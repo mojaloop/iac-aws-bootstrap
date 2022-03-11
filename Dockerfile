@@ -3,7 +3,7 @@ ARG TERRAFORM_VERSION=1.0.5
 
 
 # Update apt and Install dependencies
-RUN add-apt-repository ppa:ansible/ansible && apt-get update && apt-get install -y \
+RUN apt-get update && apt-get install -y software-properties-common && add-apt-repository ppa:ansible/ansible && apt-get update && apt-get install -y \
     curl \
     dnsutils \
     git \
