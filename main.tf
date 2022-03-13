@@ -52,7 +52,7 @@ module "private_subnets" {
 }
 
 module "gitlab" {
-  source                  = "git::https://github.com/mojaloop/iac-shared-modules.git//aws/gitlab?ref=v2.1.2"
+  source                  = "git::https://github.com/mojaloop/iac-shared-modules.git//aws/gitlab?ref=v2.1.3"
   ami                     = var.use_latest_ami ? module.ubuntu-focal-ami.id : var.gitlab_ami_list[var.region]
   instance_type           = "t2.large"
   gitlab_runner_size      = "c5.2xlarge"
@@ -73,8 +73,8 @@ module "gitlab" {
   smtp_server_enable      = var.smtp_server_enable
   smtp_server_address     = "email-smtp.${var.region}.amazonaws.com"
   smtp_server_port        = 587
-  smtp_server_user        = var.smtp_server_enable ? module.ses[0].access_key_id : ""
-  smtp_server_pw          = var.smtp_server_enable ? module.ses[0].secret_access_key : ""
+  smtp_server_user        = var.smtp_server_enable ? module.ses[0].access_key_id : "user"
+  smtp_server_pw          = var.smtp_server_enable ? module.ses[0].secret_access_key : "pass"
   smtp_server_mail_domain = "${lower(var.tenant)}.${var.domain}"
 }
 
