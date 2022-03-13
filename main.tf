@@ -94,16 +94,6 @@ module "nexus" {
   tenant                     = var.tenant
 }
 
-module "init-gitlab" {
-  source                     = "git::https://github.com/mojaloop/iac-shared-modules.git//gitlab/init-config?ref=v2.1.2"
-  iac_user_key_secret        = aws_iam_access_key.gitlab_ci_iam_user_key.secret
-  iac_user_key_id            = aws_iam_access_key.gitlab_ci_iam_user_key.id
-  group_list                 = var.gitlab_rbac_groups
-  env_list                   = var.environments
-  root_token                 = module.gitlab.gitlab_root_token
-  gitlab_url                 = "https://${module.gitlab.server_hostname}"
-}
-
 module "ses" {
   count = var.smtp_server_enable ? 1 : 0
   source  = "cloudposse/ses/aws"
