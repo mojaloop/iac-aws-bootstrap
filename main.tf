@@ -74,7 +74,7 @@ module "gitlab" {
   smtp_server_address     = "email-smtp.${var.region}.amazonaws.com"
   smtp_server_port        = 587
   smtp_server_user        = var.smtp_server_enable ? module.ses[0].access_key_id : "user"
-  smtp_server_pw          = var.smtp_server_enable ? module.ses[0].secret_access_key : "pass"
+  smtp_server_pw          = var.smtp_server_enable ? module.ses[0].ses_smtp_password : "pass"
   smtp_server_mail_domain = "${lower(var.tenant)}.${var.domain}"
 }
 
