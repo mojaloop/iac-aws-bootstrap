@@ -173,3 +173,9 @@ variable "smtp_server_enable" {
   description = "enable smtp server (ses)"
   default = false
 }
+
+variable "gitlab_version" {
+  type        = string
+  description = "gitlab_version"
+  default = "14.8.1-ee.0"
+}
