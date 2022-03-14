@@ -52,7 +52,7 @@ module "private_subnets" {
 }
 
 module "gitlab" {
-  source                  = "git::https://github.com/mojaloop/iac-shared-modules.git//aws/gitlab?ref=v2.1.3"
+  source                  = "git::https://github.com/mojaloop/iac-shared-modules.git//aws/gitlab?ref=v2.1.4-beta1"
   ami                     = var.use_latest_ami ? module.ubuntu-focal-ami.id : var.gitlab_ami_list[var.region]
   instance_type           = "t2.large"
   gitlab_runner_size      = "c5.2xlarge"
