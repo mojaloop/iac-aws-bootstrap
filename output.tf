@@ -177,3 +177,15 @@ output "iac_user_key_secret" {
   value       = aws_iam_access_key.gitlab_ci_iam_user_key.secret
   sensitive   = true
 }
+
+output "ses_user" {
+  description = "ses user"
+  value       = var.smtp_server_enable ? module.ses[0].user_name : "user"
+  sensitive   = false
+}
+
+output "ses_pw" {
+  description = "ses pw"
+  value       = var.smtp_server_enable ? module.ses[0].ses_smtp_password : "pass"
+  sensitive   = true
+}
