@@ -32,8 +32,6 @@ variable "tags" {
 }
 
 variable "subnet_az_map" {
-  type        = map(string)
-  description = "map of subnet name to az"
 }
 
 variable "max_subnets" {
