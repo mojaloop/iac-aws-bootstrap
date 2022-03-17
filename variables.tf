@@ -70,6 +70,14 @@ variable "environments" {
   default     = ["dev"]
 }
 
+variable "cidr_block_index" {
+  description = "map of environments for the tenatn. Each environment will contain an instance of Mojaloop and associated services."
+  type        = map(number)
+  default     = {
+      "dev" = 0
+  }
+}
+
 variable "public_subnets" {
   default     = ["gateway", "management", "simulators"]
   type        = list(string)

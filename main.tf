@@ -1,6 +1,6 @@
 locals {
-  all_pub_subnets  = merge({"management" = data.aws_availability_zones.available.names[0]}, {for pair in setproduct(var.environments, data.aws_availability_zones.available.names) : "${pair[0]}-${pair[1]}" => pair[1]})
-  all_priv_subnets = {for pair in setproduct(var.environments, data.aws_availability_zones.available.names) : "${pair[0]}-${pair[1]}" => pair[1]}
+  all_pub_subnets  = merge({"management" = {env = "management", az = data.aws_availability_zones.available.names[0], cidr_block_index = 0}}, {for pair in setproduct(var.environments, data.aws_availability_zones.available.names) : "${pair[0]}-${pair[1]}" => {env = pair[0], az  = pair[1], cidr_block_index = 1 + index(data.aws_availability_zones.available.names, pair[1]) + (var.cidr_block_index[pair[0]]) * length(data.aws_availability_zones.available.names)}})
+  all_priv_subnets = {for pair in setproduct(var.environments, data.aws_availability_zones.available.names) : "${pair[0]}-${pair[1]}" => {env = pair[0], az  = pair[1], cidr_block_index = index(data.aws_availability_zones.available.names, pair[1]) + (var.cidr_block_index[pair[0]]) * length(data.aws_availability_zones.available.names)}}
 }
 
 module "ubuntu-bionic-ami" {

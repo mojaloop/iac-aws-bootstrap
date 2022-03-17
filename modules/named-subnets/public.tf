@@ -17,8 +17,8 @@ module "public_label" {
 resource "aws_subnet" "public" {
   for_each          = local.public_subnet_az_map
   vpc_id            = var.vpc_id
-  availability_zone = each.value
-  cidr_block        = cidrsubnet(var.cidr_block, ceil(log(var.max_subnets, 2)), index(keys(local.public_subnet_az_map), each.key))
+  availability_zone = each.value.az
+  cidr_block        = cidrsubnet(var.cidr_block, ceil(log(var.max_subnets, 2)), each.value.cidr_block_index)
 
   tags = {
     "Name"      = "${module.public_label.id}${var.delimiter}${each.key}"
