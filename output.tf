@@ -189,3 +189,8 @@ output "ses_pw" {
   value       = var.smtp_server_enable ? module.ses[0].ses_smtp_password : "pass"
   sensitive   = true
 }
+
+output "availability_zones" {
+  description = "azs used in tenancy"
+  value       = local.availability_zones
+}
