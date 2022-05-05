@@ -194,3 +194,13 @@ output "availability_zones" {
   description = "azs used in tenancy"
   value       = local.availability_zones
 }
+
+output "natgw_public_ip" {
+  description = "natgw public ip"
+  value       = module.public_subnets.ngw_public_ip
+}
+
+output "natgw_private_ip" {
+  description = "natgw private ip"
+  value       = module.public_subnets.ngw_private_ip
+}
