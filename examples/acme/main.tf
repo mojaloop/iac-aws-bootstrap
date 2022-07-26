@@ -1,23 +1,24 @@
 module "bootstrap" {
-  source = "git::https://github.com/mojaloop/iac-aws-bootstrap.git?ref=v2.1.4"
+  source = "git::https://github.com/mojaloop/iac-aws-bootstrap.git?ref=v2beta"
   tags = {
     "Origin" = "Managed by Terraform"
     "mojaloop/cost_center" = "oss-iac-test"
-    "mojaloop/owner" = "dfry"
+    "mojaloop/owner" = "jdoe"
     "Tenant" = var.tenant
   }
 
-  domain       = "mojatest.live" # The FQDN of the tenant
+  domain       = "mojatest.live"
   tenant       = var.tenant             # The Tenant name (probably the name of the customer - this should be the same as ths "tenant" above)
   region       = var.region        # https://docs.aws.amazon.com/AWSEC2/latest/UserGuide/using-regions-availability-zones.html#concepts-available-regions
-  environments = var.environments             # Comma Separated list of environments in this tenant.    e.g. ["dev","qa","test1"]
+  environments = var.environments            # Comma Separated list of environments in this tenant.    e.g. ["dev","qa","test1"]
   gitlab_use_staging_letsencrypt = false
   iac_group_name = "iac_admin"
   enable_github_oauth     = false
-  github_oauth_id         = "12abc8d17f07711165c5"
-  github_oauth_secret     = "60f7769649e0642393de91854fe299f504bb1046"
   gitlab_rbac_groups      = var.gitlab_rbac_groups
   smtp_server_enable      = true
+  gitlab_version          = "14.8.2"
+  cidr_block_index = var.cidr_block_index
+  max_number_availability_zones = 1
 }
 
 
@@ -25,6 +26,13 @@ variable "environments" {
   description = "environments to install"
   type        = list(string)
   default     = ["dev"]
+}
+variable "cidr_block_index" {
+  description = "index for cidr block assignments"
+  type        = map(number)
+  default     = {
+      "dev" = 0
+  }
 }
 variable "gitlab_rbac_groups" {
   description = "list of groups to configure"
@@ -39,7 +47,7 @@ variable "region" {
 variable "tenant" {
   description = "tenant name"
   type        = string
-  default     = "infra4"
+  default     = "tenancy1"
 }
 ############################################### DO NOT EDIT BELOW THIS LINE #############################################
 
@@ -200,4 +208,8 @@ output "ses_user" {
 output "ses_pw" {
   value = module.bootstrap.ses_pw
   sensitive   = true
+}
+output "availability_zones" {
+  description = "azs used in tenancy"
+  value       = module.bootstrap.availability_zones
 }
