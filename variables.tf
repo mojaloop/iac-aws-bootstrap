@@ -187,3 +187,9 @@ variable "gitlab_version" {
   description = "gitlab_version"
   default = "14.8.2"
 }
+
+variable "max_number_availability_zones" {
+  type = number
+  description = "max number of azs to support"
+  default = 1
+}
