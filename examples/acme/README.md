@@ -6,7 +6,7 @@ You can run the follwing commands inside the docker container produced by the re
 
 docker run -it -v ~/.aws:/root/.aws ghcr.io/mojaloop/iac-aws-bootstrap:currentver
 
-You need to create the backend.hcl file by using the iac-aws-backend repo and setting the appropriate variables when prompted.
+You need to create the backend.hcl file by using the [iac-aws-backend repo](https://github.com/mojaloop/iac-aws-backend) and setting the appropriate variables when prompted.
 
 Copy the backend.hcl file into the same dir as the primary main.tf file.  
 
@@ -14,7 +14,7 @@ Edit the main.tf file to set the version of the bootstrap iac in the module call
 
 You can also change the number of zones to use if you wish to have the switch create worker nodes in different zones and have the load balancers balance accross those different zones.  Or leave it at 1 and everything will be in the same zone.
 
-You need to create a group that has admin access and that group must be set here:
+You need to create an IAM group that has administator access and that group name must be set here:
 
 iac_group_name = ....
 
