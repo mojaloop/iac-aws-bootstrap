@@ -1,6 +1,6 @@
 # How To Configure Bootstrap
 
-For a working example see the [acme example](examples/acme/main.tf). 
+For a working example see the [acme example](main.tf). 
 
 You can run the follwing commands inside the docker container produced by the release of this repo.  Run the image with the following command (which will mount your ~/.aws/credentials into the docker container):
 
