@@ -16,7 +16,7 @@ Environments can, however, have differing root DNS entries.
 
 To deploy the first mojaloop environment for a new tenant must first be created. This repository will do that.
 
-* [Building a tenancy](./documents/d100.building.md) should be followed to complete the initial setup before attempting to deploy a mojaloop environment.
+* [Building a tenancy](./examples/acme/README.md) should be followed to complete the initial setup before attempting to deploy a mojaloop environment.
 
 * Once these are completed, proceed to the latest release of [IaC Platform](https://github.com/mojaloop/iac-aws-platform/releases/) And follow the README.md file to deploy it.
 
