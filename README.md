@@ -1,7 +1,5 @@
 # Mojaloop Platform Bootstrap
 
-![mojaloopIaC by ModusBox banner](./documents/readme_images/000-banner.png)
-
 The intention of this repository is to create the execution environment (also known as "Tenancy" throughout this document) for a single, or multiple mojaloop environments. The objective is to collect multiple environments together to simplify billing, access controls and MAD (Monitoring, Audit and Deployment) processes.
 
 A typical deployment structure might be as follows:
