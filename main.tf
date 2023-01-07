@@ -81,7 +81,7 @@ module "gitlab" {
 }
 
 module "nexus" {
-  source                     = "git::https://github.com/mojaloop/iac-shared-modules.git//aws/nexus?ref=v2.1.13"
+  source                     = "git::https://github.com/mojaloop/iac-shared-modules.git//aws/nexus?ref=v2.1.16"
   ami                        = var.use_latest_ami ? module.ubuntu-focal-ami.id : var.nexus_ami_list[var.region]
   instance_type              = var.nexus_instance_type
   domain                     = var.domain
